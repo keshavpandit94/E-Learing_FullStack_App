@@ -2,7 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Lock, LogIn, Eye, EyeOff, AlertCircle, Sparkles, ArrowRight } from "lucide-react";
+// Added ArrowLeft to the imports
+import { Mail, Lock, LogIn, Eye, EyeOff, AlertCircle, Sparkles, ArrowRight, ArrowLeft } from "lucide-react";
 import BACK_URL from "../../api";
 
 export default function Login() {
@@ -28,7 +29,6 @@ export default function Login() {
         setTimeout(() => navigate("/"), 1200);
       })
       .catch((err) => {
-        // Preserved Suspension Check logic from older version
         if (
           err.response &&
           err.response.status === 403 &&
@@ -55,6 +55,18 @@ export default function Login() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="bg-white/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-[2.5rem] p-8 md:p-12 w-full max-w-md border border-white relative z-10"
       >
+        {/* --- BACK BUTTON START --- */}
+        <motion.button
+          whileHover={{ x: -4 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => navigate("/")}
+          className="absolute top-8 left-8 p-2 text-slate-400 hover:text-slate-900 transition-colors flex items-center gap-2 text-sm font-bold"
+        >
+          <ArrowLeft size={18} />
+          <span className="hidden sm:inline">Back</span>
+        </motion.button>
+        {/* --- BACK BUTTON END --- */}
+
         {/* Header */}
         <div className="text-center mb-10">
           <motion.div 

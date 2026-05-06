@@ -12,6 +12,7 @@ import Profile from "./pages/User/Profile";
 import CoursePlayer from "./pages/User/CoursePlayer";
 import Footer from "./components/Footer";
 import About from "./pages/About";
+import InstructorDetails from "./pages/InstructorDetails";
 
 function AppWrapper() {
   return (
@@ -25,23 +26,28 @@ function App() {
   const token = localStorage.getItem("token");
   const location = useLocation();
 
-  // 1. Specialized logic for the Course Player (Focus Mode)
-  // We hide Navbar and Footer to give the video player 100% screen real estate.
+  // 1. Pages with NO Navbar or Footer (Focus Mode)
   const isPlayerPage = location.pathname.startsWith("/continue/");
+  const isAuthPage = ["/login", "/signup"].includes(location.pathname);
+  // Added check for Instructor Details page
+  const isInstructorPage = location.pathname.startsWith("/instructor/");
 
-  // 2. Footer configuration
+  // Combine these to control layout visibility
+  const hideLayout = isPlayerPage || isAuthPage || isInstructorPage;
+
+  // 2. Footer configuration for specific static pages
   const fullFooterPaths = ["/", "/about-us"];
   const showFullFooter = fullFooterPaths.includes(location.pathname);
 
   return (
     <div className="flex flex-col min-h-screen bg-[#fafafa]">
       {/* 3. Conditionally Render Navbar */}
-      {!isPlayerPage && <Navbar />}
+      {!hideLayout && <Navbar />}
 
       {/* 4. Main Content Area 
-          pt-0 for player to stick to top, pt-20 for others to clear fixed navbar
+          pt-0 for pages without navbar, pt-10/20 for others to clear fixed header
       */}
-      <main className={`flex-grow ${isPlayerPage ? "pt-0" : "pt-20 md:pt-24"}`}>
+      <main className={`flex-grow ${hideLayout ? "pt-0" : "pt-10 md:pt-10"}`}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
@@ -52,6 +58,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/continue/:courseId" element={<CoursePlayer token={token} />} />
             <Route path="/about-us" element={<About />} />
+            <Route path="/instructor/:id" element={<InstructorDetails />} />
 
             {/* Protected Routes */}
             <Route
@@ -67,7 +74,7 @@ function App() {
       </main>
 
       {/* 5. Conditionally Render Footer */}
-      {!isPlayerPage && (
+      {!hideLayout && (
         showFullFooter ? (
           <Footer isLoggedIn={!!token} />
         ) : (

@@ -11,6 +11,7 @@ import {
   Eye,
   EyeOff,
   ArrowRight,
+  ArrowLeft, // 1. Imported ArrowLeft
   AlertCircle,
   Sparkles
 } from "lucide-react";
@@ -56,6 +57,18 @@ export default function Signup() {
         animate={{ opacity: 1, y: 0 }}
         className="bg-white/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-[2.5rem] p-8 md:p-10 w-full max-w-lg border border-white relative z-10"
       >
+        {/* --- 2. Added Back Button START --- */}
+        <motion.button
+          whileHover={{ x: -4 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => navigate("/")}
+          className="absolute top-8 left-8 p-2 text-slate-400 hover:text-slate-900 transition-colors flex items-center gap-2 text-sm font-bold"
+        >
+          <ArrowLeft size={18} />
+          <span className="hidden sm:inline">Back</span>
+        </motion.button>
+        {/* --- Back Button END --- */}
+
         {/* Header */}
         <div className="text-center mb-8">
           <motion.div 

@@ -32,10 +32,10 @@ export default function Home() {
       axios.get(`${BACK_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       })
-      .then((res) => setUser(res.data.user))
-      .catch(err => console.error("Error fetching user:", err));
+        .then((res) => setUser(res.data.user))
+        .catch(err => console.error("Error fetching user:", err));
     }
-    
+
     axios.get(`${BACK_URL}/api/courses`)
       .then((res) => setCourses(res.data))
       .catch(err => console.error("Error fetching courses:", err));
@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-slate-900 selection:bg-blue-100 selection:text-blue-700">
-      
+
       {/* --- PREMIUM HERO SECTION --- */}
       <section className="relative pt-20 pb-32 overflow-hidden">
         {/* Animated Mesh Background */}
@@ -58,7 +58,7 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-6 text-center">
           {/* Floating Badge */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-slate-200 shadow-sm backdrop-blur-md mb-8"
@@ -67,7 +67,7 @@ export default function Home() {
             <span className="text-xs font-bold tracking-wider text-slate-600 uppercase">The Future of Education</span>
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -77,7 +77,7 @@ export default function Home() {
             <span className="text-blue-600 italic">boundaries.</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -87,7 +87,7 @@ export default function Home() {
           </motion.p>
 
           {/* Action Buttons */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
@@ -147,7 +147,7 @@ export default function Home() {
               <h2 className="text-4xl font-black tracking-tight text-slate-900">Featured Content</h2>
               <p className="text-slate-500 mt-2">Curated courses from industry pioneers to master in-demand skills.</p>
             </div>
-            <button 
+            <button
               onClick={() => navigate("/courses")}
               className="text-blue-600 font-bold flex items-center justify-center gap-2 hover:underline"
             >
@@ -157,14 +157,14 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {courses.map((course) => (
-              <motion.div 
+              <motion.div
                 key={course._id}
                 whileHover={{ y: -12 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <CardComponents 
-                  course={course} 
-                  navigate={navigate} 
+                <CardComponents
+                  course={course}
+                  navigate={navigate}
                   viewMode="grid"
                   status={null}
                   enrolling={false}
@@ -178,14 +178,20 @@ export default function Home() {
       {/* --- INSTRUCTORS SECTION --- */}
       <section className="py-32 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-black text-center mb-20 tracking-tight text-gray-800">Learn from the Best</h2>
+          <h2 className="text-4xl font-black text-center mb-20 tracking-tight text-gray-800">
+            Learn from the Best
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
             {instructors.map((instructor) => (
-              <div key={instructor._id} className="grayscale hover:grayscale-0 transition-all duration-500">
-                <InstructorCard
-                  instructor={instructor}
-                  onClick={() => navigate(`/instructors/${instructor._id}`)}
-                />
+              <div
+                key={instructor._id}
+                className="grayscale hover:grayscale-0 transition-all duration-500"
+              >
+                {/* 
+              Note: We no longer need to pass onClick here because 
+              InstructorCard now handles its own navigation internally.
+          */}
+                <InstructorCard instructor={instructor} />
               </div>
             ))}
           </div>

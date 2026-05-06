@@ -1,14 +1,23 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Mail, UserCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // 1. Import useNavigate
 
-export default function InstructorCard({ instructor, onClick }) {
+export default function InstructorCard({ instructor }) {
+  const navigate = useNavigate(); // 2. Initialize navigate
+
+  // Navigation handler
+  const handleViewProfile = () => {
+    // Assuming your route is defined as /instructor/:id
+    navigate(`/instructor/${instructor._id || instructor.id}`);
+  };
+
   return (
     <motion.div
       whileHover={{ y: -10, scale: 1.02 }}
       transition={{ type: "spring", stiffness: 300 }}
       className="relative group w-full max-w-sm mx-auto bg-white rounded-[2.5rem] p-6 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] border border-slate-100 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] transition-all overflow-hidden cursor-pointer"
-      onClick={onClick}
+      onClick={handleViewProfile} // 3. Card click goes to details
     >
       {/* Decorative Background Element */}
       <div className="absolute top-[-20px] right-[-20px] w-32 h-32 bg-blue-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-700 -z-0" />
@@ -49,6 +58,10 @@ export default function InstructorCard({ instructor, onClick }) {
         {/* Action Buttons */}
         <div className="mt-8 flex gap-3">
           <button 
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent double trigger
+              handleViewProfile();
+            }}
             className="flex-2 flex items-center justify-center gap-2 bg-slate-900 hover:bg-blue-600 text-white text-xs font-black uppercase tracking-widest py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-slate-200 active:scale-95 flex-grow"
           >
             <UserCircle size={18} />
